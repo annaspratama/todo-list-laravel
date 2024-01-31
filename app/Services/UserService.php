@@ -11,5 +11,5 @@ interface UserService
      * @param string $password
      * @return bool
      */
-    public function login(string $username, string $password): bool;
+    public function login(string $email, string $password): bool;
 }

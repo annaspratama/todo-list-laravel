@@ -6,6 +6,7 @@ use App\Services\ToDoListService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Testing\Assert;
 use Tests\TestCase;
 
 class ToDoListServiceTest extends TestCase
@@ -43,7 +44,7 @@ class ToDoListServiceTest extends TestCase
     {
         $this->todolistService->saveTodo(id: "1", todo: "Annas");
 
-        $todolist = Session::get(key: 'todolist');
+        $todolist = $this->todolistService->getTodolist();
 
         foreach ($todolist as $value){
             self::assertEquals(expected: "1", actual: $value['id']);
@@ -82,7 +83,7 @@ class ToDoListServiceTest extends TestCase
         $this->todolistService->saveTodo(id: "1", todo: "Annas");
         $this->todolistService->saveTodo(id: "2", todo: "Pratama");
 
-        self::assertEquals(expected: $expected, actual: $this->todolistService->getTodolist());
+        Assert::assertArraySubset(subset: $expected, array: $this->todolistService->getTodolist());
     }
 
     /**

@@ -51,7 +51,7 @@ class UserController extends Controller
             ]);
         }
 
-        if ($this->userService->login(username: $user, password: $password)) {
+        if ($this->userService->login(email: $user, password: $password)) {
             $request->session()->put(key: 'username', value: $user);
             return redirect(to: '/');
         }

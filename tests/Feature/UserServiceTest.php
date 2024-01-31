@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Services\UserService;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -30,7 +31,9 @@ class UserServiceTest extends TestCase
      */
     public function testLoginSuccess(): void
     {
-        self::assertTrue($this->userService->login(username: "annas", password: "admin123"));
+        $this->seed(class: UserSeeder::class);
+
+        self::assertTrue(condition: $this->userService->login(email: "annas@mail.com", password: "admin123"));
     }
 
     /**
@@ -40,7 +43,7 @@ class UserServiceTest extends TestCase
      */
     public function testLoginUserNotFound(): void
     {
-        self::assertFalse($this->userService->login(username: "anas", password: "admin123"));
+        self::assertFalse($this->userService->login(email: "anas", password: "admin123"));
     }
 
     /**
@@ -50,6 +53,6 @@ class UserServiceTest extends TestCase
      */
     public function testLoginWrongPassword(): void
     {
-        self::assertFalse($this->userService->login(username: "annas", password: "admin124"));
+        self::assertFalse($this->userService->login(email: "annas", password: "admin124"));
     }
 }

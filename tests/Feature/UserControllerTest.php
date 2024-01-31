@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -40,12 +41,14 @@ class UserControllerTest extends TestCase
      */
     public function testLoginSuccess(): void
     {
+        $this->seed(class: UserSeeder::class);
+
         $this->post(uri: '/login', data: [
-            'username' => "annas",
-            "password" => "admin123"
+            'username' => "annas@mail.com",
+            'password' => "admin123"
         ])
-            // ->assertRedirect(uri: '/')
-            ->assertSessionHas(key: 'username', value: "annas");
+            ->assertRedirect(uri: '/')
+            ->assertSessionHas(key: 'username', value: "annas@mail.com");
     }
 
     /**
@@ -58,7 +61,7 @@ class UserControllerTest extends TestCase
         $this->withSession(data: [
             'username' => "annas"
         ])->post(uri: '/login', data: [
-            'username' => "annas",
+            'email' => "annas@mail.com",
             'password' => "admin123"
         ])->assertRedirect("/");
     }
@@ -97,7 +100,7 @@ class UserControllerTest extends TestCase
         $this->withSession(data: [
             'username' => "annas"
         ])
-            ->get(uri: '/logout')
+            ->post(uri: '/logout')
             ->assertRedirect(uri: '/login')
             ->assertSessionMissing(key: 'username');
     }
@@ -109,7 +112,7 @@ class UserControllerTest extends TestCase
      */
     public function testLogoutGuest(): void
     {
-        $this->get(uri: '/logout')
+        $this->post(uri: '/logout')
             ->assertRedirect(uri: '/login');
     }
 }

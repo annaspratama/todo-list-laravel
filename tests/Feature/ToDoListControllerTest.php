@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\TodoSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -15,6 +16,8 @@ class ToDoListControllerTest extends TestCase
      */
     public function testTodolist(): void
     {
+        $this->seed(class: TodoSeeder::class);
+        
         $this->withSession(data: [
             'username' => "annas",
             "todolist" => [
