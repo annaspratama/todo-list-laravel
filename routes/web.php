@@ -20,5 +20,11 @@ Route::view(uri: '/template', view: 'template');
 Route::controller(\App\Http\Controllers\UserController::class)->group(function () {
     Route::get(uri: '/login', action: 'login')->middleware([\App\Http\Middleware\OnlyGuestMiddleware::class]);
     Route::post(uri: '/login', action: 'doLogin')->middleware([\App\Http\Middleware\OnlyGuestMiddleware::class]);
-    Route::get(uri: '/logout', action: 'doLogout')->middleware([\App\Http\Middleware\OnlyMemberMiddleware::class]);
+    Route::post(uri: '/logout', action: 'doLogout')->middleware([\App\Http\Middleware\OnlyMemberMiddleware::class]);
+});
+
+Route::controller(\App\Http\Controllers\ToDoListController::class)->middleware([\App\Http\Middleware\OnlyMemberMiddleware::class])->group(function () {
+        Route::get('/todolist', 'todoList');
+        Route::post('/todolist', 'addTodo');
+        Route::post('/todolist/{id}/delete', 'removeTodo');
 });
