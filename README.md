@@ -2,6 +2,8 @@
 
 This is mini project just for educational purpose built with PHP Laravel and MySQL.
 
-** Contact Me **
+---
+
+**Contact Me**
 
 You can contact me on mail *annaspratama@icloud.com* if you interested to partnership.
